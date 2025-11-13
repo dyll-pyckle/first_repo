@@ -70,37 +70,36 @@ hangmanpics_index = 0
 
 found_list = []
 guessed_letters = set()
+won = False
 
-for i in range(8):
+while hangmanpics_index < 6 and not won:
+    print("\n" + HANGMANPICS[hangmanpics_index])
+    print(" ".join(hidden_list))
+    if wrong_letters:
+        print(f"Wrong guesses: {' '.join(wrong_letters)}")
+
     while True:
-        choice = input("Which letter do you guess?").lower()
+        choice = input("\nWhich letter do you guess? ").lower().strip()
+        if len(choice) != 1 or not choice.isalpha():
+            print("Please enter a single letter (a-z)!")
+            continue
         if choice in guessed_letters:
             print(f"You already guessed '{choice}'!")
-        else:
-            guessed_letters.add(choice)
-            break
-    
+            continue
+        guessed_letters.add(choice)
+        break
+
     if choice in chosen_word:
-        print("you got a letter!")
-        
-        for i, letter in enumerate(chosen_word):
+        print("Good guess!")
+        for idx, letter in enumerate(chosen_word):
             if letter == choice:
-                hidden_list[i] = choice
-        found_list.append(choice)
-        print(*hidden_list, sep=' ')
-        print(HANGMANPICS[hangmanpics_index])
-       
-        if "".join(hidden_list) == chosen_word:
-            print("you win!")
-            break
-            
+                hidden_list[idx] = choice
+        print(" ".join(hidden_list))
     else:
-        print("wrong")
+        
+        print("Wrong guess!")
         wrong_letters.append(choice)
         hangmanpics_index += 1
-        print(f"you got {" ".join(wrong_letters)} wrong")
-        print(HANGMANPICS[hangmanpics_index])
-        
         
     if hangmanpics_index == 6:
         print("you lose!")
