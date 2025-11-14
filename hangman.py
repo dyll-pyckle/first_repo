@@ -60,7 +60,11 @@ list_of_words = [
     "wool", "cotton"
 ]
 tries = 0
-chosen_word = random.choice(list_of_words)
+choice1 = input("Do you want to 1. choose a word or 2. have it randomly selected for you? (enter 1 or 2): ")
+if choice1 == "1":
+    chosen_word = input("Enter your word: ").lower().strip()
+else:
+    chosen_word = random.choice(list_of_words)
 wrong_letters = []
 
 length = len(chosen_word)
@@ -102,7 +106,10 @@ while hangmanpics_index < 6 and not won:
         hangmanpics_index += 1
         
     if hangmanpics_index == 6:
+        print(HANGMANPICS[6])
         print("you lose!")
         break
+    if hidden_list == list(chosen_word):
+        print("you win!")
+        won = True
 print(f"the word was {chosen_word}.")
-print(HANGMANPICS[6])
