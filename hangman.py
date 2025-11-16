@@ -59,20 +59,21 @@ list_of_words = [
     "amber", "pearl", "coral", "ivory", "onyx", "velvet", "linen", "silk", 
     "wool", "cotton"
 ]
-tries = 0
-choice1 = input("Do you want to 1. choose a word or 2. have it randomly selected for you? (enter 1 or 2): ")
-if choice1 == "1":
-    chosen_word = input("Enter your word: ").lower().strip()
-else:
-    chosen_word = random.choice(list_of_words)
+while True:
+    choice1 = input("Enter 1 to choose your own word, or 2 for a random word: ")
+    if choice1 == "1":
+        chosen_word = input("Enter your word: ").lower().strip()
+        break
+    elif choice1 == "2":
+        chosen_word = random.choice(list_of_words)
+        break
+    else:
+        print(f"Sorry, {choice1} was not an option. please try again.")
+        continue
 wrong_letters = []
-
 length = len(chosen_word)
-
 hidden_list = list("_"*length)
 hangmanpics_index = 0
-
-found_list = []
 guessed_letters = set()
 won = False
 
@@ -81,9 +82,9 @@ while hangmanpics_index < 6 and not won:
     print(" ".join(hidden_list))
     if wrong_letters:
         print(f"Wrong guesses: {' '.join(wrong_letters)}")
-
+            
     while True:
-        choice = input("\nWhich letter do you guess? ").lower().strip()
+        choice = input("\nWhich letter do you guess?: ").lower().strip()
         if len(choice) != 1 or not choice.isalpha():
             print("Please enter a single letter (a-z)!")
             continue
@@ -92,7 +93,6 @@ while hangmanpics_index < 6 and not won:
             continue
         guessed_letters.add(choice)
         break
-
     if choice in chosen_word:
         print("Good guess!")
         for idx, letter in enumerate(chosen_word):
@@ -100,16 +100,16 @@ while hangmanpics_index < 6 and not won:
                 hidden_list[idx] = choice
         print(" ".join(hidden_list))
     else:
-        
+            
         print("Wrong guess!")
         wrong_letters.append(choice)
         hangmanpics_index += 1
-        
     if hangmanpics_index == 6:
         print(HANGMANPICS[6])
-        print("you lose!")
+        print("You lose!")
         break
     if hidden_list == list(chosen_word):
-        print("you win!")
+        print("You win!")
         won = True
-print(f"the word was {chosen_word}.")
+        break
+print(f"The word was {chosen_word}.")
